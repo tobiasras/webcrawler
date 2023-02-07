@@ -22,7 +22,6 @@ public class LinkController {
         return new ResponseEntity<> (linksBySearchID, HttpStatus.OK);
     }
 
-    // findByStatus
     @GetMapping("/status/{status}")
     public ResponseEntity<List<Link>> byStatus(@RequestParam String status){
         List<Link> byStatus = linkService.findByStatus(status);

@@ -11,32 +11,36 @@ import java.util.Optional;
 
 @AllArgsConstructor
 @Service
-public class SearchService implements ICrudInterface<Search, Long> {
+public class SearchService{
 
     private SearchRepository searchRepository;
 
-    @Override
-    public List<Search> findAll() {
-        return searchRepository.findAll();
-    }
-
-    @Override
     public Search save(Search object) {
         return searchRepository.save(object);
     }
 
-    @Override
-    public void delete(Search object) {
-        searchRepository.delete(object);
-    }
 
-    @Override
     public void deleteById(Long aLong) {
         searchRepository.deleteById(aLong);
     }
 
-    @Override
     public Optional<Search> findById(Long aLong) {
         return searchRepository.findById(aLong);
     }
+
+    public List<Search> findByInitialUrl(String initURl){
+        return searchRepository.findByInitialUrl(initURl);
+    }
+    public List<Search> findByProjectId(Long projectID){
+        return searchRepository.findByProjectId(projectID);
+    }
+
+
+
+
+
+
+
+
+
 }
