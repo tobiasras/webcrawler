@@ -17,13 +17,13 @@ public class LinkController {
     private LinkService linkService;
 
     @GetMapping("/search/{searchID}")
-    public ResponseEntity<List<Link>> bySearchID(@RequestParam Long searchID){
+    public ResponseEntity<List<Link>> bySearchID(@PathVariable Long searchID){
         List<Link> linksBySearchID = linkService.findBySearchID(searchID);
         return new ResponseEntity<> (linksBySearchID, HttpStatus.OK);
     }
 
     @GetMapping("/status/{status}")
-    public ResponseEntity<List<Link>> byStatus(@RequestParam String status){
+    public ResponseEntity<List<Link>> byStatus(@PathVariable String status){
         List<Link> byStatus = linkService.findByStatus(status);
         return new ResponseEntity<>(byStatus, HttpStatus.OK);
     }
