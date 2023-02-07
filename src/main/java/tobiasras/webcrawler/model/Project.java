@@ -15,7 +15,7 @@ public class Project {
     private Long id;
     private String name;
 
-    @OneToMany(mappedBy = "project")
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
     private List<Search> searches;
 
 }

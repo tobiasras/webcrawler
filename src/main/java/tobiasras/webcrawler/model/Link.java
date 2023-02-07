@@ -1,9 +1,11 @@
 package tobiasras.webcrawler.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Setter;
 
 import java.util.Collection;
 import java.util.Date;
@@ -21,6 +23,7 @@ public class Link {
     private String url;
     private String status;
     private Date lastCrawled;
+    private String protocol;
 
 
     @ManyToOne()

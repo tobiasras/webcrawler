@@ -2,11 +2,14 @@ package tobiasras.webcrawler.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import tobiasras.webcrawler.crawler.ScrapeLink;
+import tobiasras.webcrawler.crawler.Status;
 import tobiasras.webcrawler.model.Link;
+import tobiasras.webcrawler.model.Search;
 import tobiasras.webcrawler.repository.LinkRepository;
 
-import java.util.List;
-import java.util.Optional;
+import java.io.IOException;
+import java.util.*;
 
 
 @AllArgsConstructor
@@ -47,5 +50,6 @@ public class LinkService implements ICrudInterface<Link, Long> {
     public List<Link> findByStatus(String status){
         return linkRepository.findByStatus(status);
     }
+
 
 }
