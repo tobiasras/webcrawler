@@ -39,4 +39,13 @@ public class LinkService implements ICrudInterface<Link, Long> {
     public Optional<Link> findById(Long aLong) {
         return Optional.empty();
     }
+
+    public List<Link> findBySearchID(Long aLong) {
+        return linkRepository.findBySearchId(aLong);
+    }
+
+    public List<Link> findByStatus(String status){
+        return linkRepository.findByStatus(status);
+    }
+
 }
