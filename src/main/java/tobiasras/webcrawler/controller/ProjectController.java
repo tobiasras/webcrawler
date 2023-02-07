@@ -1,6 +1,5 @@
 package tobiasras.webcrawler.controller;
 
-
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +16,7 @@ import java.util.Optional;
 public class ProjectController {
     private ProjectService projectService;
 
-    @GetMapping("/")
+    @GetMapping("")
     public ResponseEntity<List<Project>> all(){
         return new ResponseEntity<>(projectService.findAll(), HttpStatus.OK);
     }
@@ -32,7 +31,7 @@ public class ProjectController {
         }
     }
 
-    @PostMapping("/")
+    @PostMapping("")
     public ResponseEntity<Project> save(@RequestBody Project project){
         Project save = projectService.save(project);
         return new ResponseEntity<>(save, HttpStatus.OK);

@@ -6,7 +6,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tobiasras.webcrawler.model.Link;
 import tobiasras.webcrawler.service.LinkService;
-
 import java.util.List;
 
 @AllArgsConstructor
@@ -21,13 +20,11 @@ public class LinkController {
         List<Link> linksBySearchID = linkService.findBySearchID(searchID);
         return new ResponseEntity<> (linksBySearchID, HttpStatus.OK);
     }
-
     @GetMapping("/status/{status}")
     public ResponseEntity<List<Link>> byStatus(@PathVariable String status){
         List<Link> byStatus = linkService.findByStatus(status);
         return new ResponseEntity<>(byStatus, HttpStatus.OK);
     }
-
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id){
         linkService.deleteById(id);

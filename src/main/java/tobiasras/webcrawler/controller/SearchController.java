@@ -6,7 +6,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tobiasras.webcrawler.model.Search;
 import tobiasras.webcrawler.service.SearchService;
-
 import java.util.List;
 
 @AllArgsConstructor
@@ -28,13 +27,13 @@ public class SearchController {
         return new ResponseEntity<>(byInitialUrl, HttpStatus.OK);
     }
 
-    @PostMapping("/")
+    @PostMapping("")
     public ResponseEntity<Search> saveSearch(@RequestBody Search search) {
         Search saved = searchService.save(search);
         return new ResponseEntity<>(saved, HttpStatus.OK);
     }
 
-    @PatchMapping("/")
+    @PatchMapping("")
     public ResponseEntity<Search> findSearchByID(@RequestBody Search search) {
         if (search.getId() != null) {
             Search updated = searchService.save(search);
