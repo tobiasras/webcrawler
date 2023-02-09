@@ -30,6 +30,7 @@ public class LinkController {
         return new ResponseEntity<>(byStatus, HttpStatus.OK);
     }
 
+
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id){
         linkService.deleteById(id);

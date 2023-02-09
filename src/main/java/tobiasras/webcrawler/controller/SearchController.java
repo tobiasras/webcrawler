@@ -49,14 +49,7 @@ public class SearchController {
 
     }
 
-    @PostMapping("/crawl")
-    public ResponseEntity<List<Search>> crawlLinks(@PathVariable Long projectID) {
-        List<Search> searches = searchService.findByProjectId(projectID);
 
-        List<Search> searchesCrawled = searchService.crawl(searches);
-
-        return new ResponseEntity<>(searchesCrawled, HttpStatus.OK);
-    }
 
 
     @PatchMapping("")

@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.util.Collection;
 import java.util.Date;

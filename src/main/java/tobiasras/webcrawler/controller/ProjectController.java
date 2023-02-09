@@ -5,7 +5,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tobiasras.webcrawler.model.Project;
+import tobiasras.webcrawler.model.Search;
+import tobiasras.webcrawler.service.LinkService;
 import tobiasras.webcrawler.service.ProjectService;
+import tobiasras.webcrawler.service.SearchService;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,6 +18,8 @@ import java.util.Optional;
 @RequestMapping("projects")
 public class ProjectController {
     private ProjectService projectService;
+    private SearchService searchService;
+    private LinkService linkService;
 
     @GetMapping("")
     public ResponseEntity<List<Project>> all(){
@@ -35,6 +40,27 @@ public class ProjectController {
     public ResponseEntity<Project> save(@RequestBody Project project){
         Project save = projectService.save(project);
         return new ResponseEntity<>(save, HttpStatus.OK);
+    }
+
+    @PostMapping("{projectID}/crawl")
+    public ResponseEntity<List<Search>> crawlLinks(@PathVariable Long projectID) {
+        List<Search> searches = searchService.findByProjectId(projectID);
+
+
+        List<Search> crawl;
+        try {
+            crawl = linkService.crawl(searches, projectID);
+
+            int size = crawl.get(0).getLinks().size();
+
+            System.out.println("crawled list " + size);
+
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+
+        return new ResponseEntity<>(crawl, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
