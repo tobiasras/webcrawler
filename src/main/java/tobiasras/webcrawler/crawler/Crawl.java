@@ -17,7 +17,6 @@ public class Crawl extends Thread {
     private LinkRepository linkRepository;
     private List<String> urls;
     private Search search;
-    private String threadName;
 
 
     @Override
@@ -49,6 +48,8 @@ public class Crawl extends Thread {
 
             linkRepository.save(link);
         }
+
+
 
     }
 

@@ -9,6 +9,7 @@ import tobiasras.webcrawler.model.Link;
 import tobiasras.webcrawler.model.Project;
 import tobiasras.webcrawler.model.Search;
 import tobiasras.webcrawler.repository.LinkRepository;
+import tobiasras.webcrawler.utility.ListUtilities;
 
 import java.io.IOException;
 import java.util.*;
@@ -59,31 +60,30 @@ public class LinkService implements ICrudInterface<Link, Long> {
         Optional<Project> byId = projectService.findById(projectID);
 
         for (Search search: searches){
+            linkRepository.deleteAllBySearch(search);
+
             String initialUrl = search.getInitialUrl();
 
             ScrapeLink scrapeLink = new ScrapeLink(initialUrl);
             HashSet<String> urls = scrapeLink.fetchAllUrls();
 
-            System.out.println("all links" + urls.size());
-
             LinkedList<String> linkedList = new LinkedList<>(urls);
+            ListUtilities<String> listUtilities = new ListUtilities<>();
 
-            List<String> firstHalf = linkedList.subList(0, linkedList.size() / 2);
-            List<String> secondHalf = linkedList.subList(linkedList.size() / 2 + 1, linkedList.size());
+            List<List<String>> listToBeCrawled = listUtilities.splitList(linkedList, 5);
 
-            System.out.println("first: " + firstHalf.size());
-            System.out.println("second: " + secondHalf.size());
+            List<Crawl> threads = new ArrayList<>();
 
+            for (List<String> strings : listToBeCrawled) {
+                Crawl crawl = new Crawl(linkRepository, strings, search);
+                crawl.start();
+                threads.add(crawl);
+            }
 
-            // TODO
-            Crawl crawl1 = new Crawl(linkRepository, firstHalf, search, "thread 1");
-            Crawl crawl2 = new Crawl(linkRepository, secondHalf, search, "thread 2");
-
-            crawl1.start();
-            crawl2.start();
-
-            crawl1.join();
-            crawl2.join();
+            for (Crawl thread : threads) {
+                thread.join();
+            }
+            //crawl1.join();
         }
 
 
