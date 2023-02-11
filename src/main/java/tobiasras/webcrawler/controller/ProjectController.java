@@ -42,26 +42,7 @@ public class ProjectController {
         return new ResponseEntity<>(save, HttpStatus.OK);
     }
 
-    @PostMapping("{projectID}/crawl")
-    public ResponseEntity<List<Search>> crawlLinks(@PathVariable Long projectID) {
-        List<Search> searches = searchService.findByProjectId(projectID);
 
-
-        List<Search> crawl;
-        try {
-            crawl = linkService.crawl(searches, projectID);
-
-            int size = crawl.get(0).getLinks().size();
-
-            System.out.println("crawled list " + size);
-
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-
-
-        return new ResponseEntity<>(crawl, HttpStatus.OK);
-    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id){

@@ -22,6 +22,7 @@ public class LinkService implements ICrudInterface<Link, Long> {
     private ProjectService projectService;
     private LinkRepository linkRepository;
 
+
     @Override
     public List<Link> findAll() {
         return null;
@@ -42,6 +43,7 @@ public class LinkService implements ICrudInterface<Link, Long> {
 
     }
 
+
     @Override
     public Optional<Link> findById(Long aLong) {
         return Optional.empty();
@@ -51,31 +53,31 @@ public class LinkService implements ICrudInterface<Link, Long> {
         return linkRepository.findBySearchId(aLong);
     }
 
-    public List<Link> findByStatus(String status){
+    public List<Link> findByStatus(String status) {
         return linkRepository.findByStatus(status);
     }
 
-    public List<Search> crawl(List<Search> searches, Long projectID) throws InterruptedException {
+    public Project crawl(Project project) throws InterruptedException {
+        ListUtilities<String> listUtilities = new ListUtilities<>(); // used for splitting the list
 
-        Optional<Project> byId = projectService.findById(projectID);
-
-        for (Search search: searches){
-            linkRepository.deleteAllBySearch(search);
+        List<Search> searches = project.getSearches();
+        for (Search search : searches) {
+            linkRepository.deleteLinksBySearch(search);
 
             String initialUrl = search.getInitialUrl();
-
             ScrapeLink scrapeLink = new ScrapeLink(initialUrl);
             HashSet<String> urls = scrapeLink.fetchAllUrls();
 
-            LinkedList<String> linkedList = new LinkedList<>(urls);
-            ListUtilities<String> listUtilities = new ListUtilities<>();
+            LinkedList<String> linkedList = new LinkedList<>(urls); // hashmap converted to list to split it up
+            List<List<String>> listToBeCrawled = listUtilities.splitList(linkedList, 10);
 
-            List<List<String>> listToBeCrawled = listUtilities.splitList(linkedList, 5);
 
             List<Crawl> threads = new ArrayList<>();
+            int index = 0;
 
             for (List<String> strings : listToBeCrawled) {
-                Crawl crawl = new Crawl(linkRepository, strings, search);
+                index++;
+                Crawl crawl = new Crawl(linkRepository, strings, search, "thread " + index);
                 crawl.start();
                 threads.add(crawl);
             }
@@ -83,16 +85,14 @@ public class LinkService implements ICrudInterface<Link, Long> {
             for (Crawl thread : threads) {
                 thread.join();
             }
-            //crawl1.join();
         }
 
+        Long id = project.getId();
 
+        Optional<Project> byId = projectService.findById(id);
 
-        return byId.orElse(null).getSearches();
+        return byId.orElse(null);
     }
-
-
-
 
 
 }

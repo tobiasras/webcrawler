@@ -1,5 +1,6 @@
 package tobiasras.webcrawler.crawler;
 
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import tobiasras.webcrawler.model.Link;
 import tobiasras.webcrawler.model.Search;
@@ -18,7 +19,8 @@ public class Crawl extends Thread {
     private List<String> urls;
     private Search search;
 
-
+    // used for debugging
+    private String nameOfThread;
     @Override
     public void run() {
         Status status = new Status();
@@ -43,10 +45,11 @@ public class Crawl extends Thread {
                 link.setStatus(statusForLink);
             }
 
-            System.out.println(link.getUrl());
-            System.out.println("    " + link.getStatus());
+            System.out.println(link.getUrl() +  " status: " + nameOfThread);
+
 
             linkRepository.save(link);
+
         }
 
 
