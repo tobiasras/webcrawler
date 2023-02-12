@@ -2,16 +2,12 @@ package tobiasras.webcrawler.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import tobiasras.webcrawler.crawler.Crawl;
-import tobiasras.webcrawler.crawler.ScrapeLink;
-import tobiasras.webcrawler.crawler.Status;
+import tobiasras.webcrawler.crawler.CrawlProcess;
 import tobiasras.webcrawler.model.Link;
 import tobiasras.webcrawler.model.Project;
 import tobiasras.webcrawler.model.Search;
 import tobiasras.webcrawler.repository.LinkRepository;
-import tobiasras.webcrawler.utility.ListUtilities;
 
-import java.io.IOException;
 import java.util.*;
 
 
@@ -57,42 +53,21 @@ public class LinkService implements ICrudInterface<Link, Long> {
         return linkRepository.findByStatus(status);
     }
 
-    public Project crawl(Project project) throws InterruptedException {
-        ListUtilities<String> listUtilities = new ListUtilities<>(); // used for splitting the list
-
+    public Project crawlProject(Project project) throws InterruptedException {
         List<Search> searches = project.getSearches();
+
         for (Search search : searches) {
-            linkRepository.deleteLinksBySearch(search);
-
-            String initialUrl = search.getInitialUrl();
-            ScrapeLink scrapeLink = new ScrapeLink(initialUrl);
-            HashSet<String> urls = scrapeLink.fetchAllUrls();
-
-            LinkedList<String> linkedList = new LinkedList<>(urls); // hashmap converted to list to split it up
-            List<List<String>> listToBeCrawled = listUtilities.splitList(linkedList, 10);
-
-
-            List<Crawl> threads = new ArrayList<>();
-            int index = 0;
-
-            for (List<String> strings : listToBeCrawled) {
-                index++;
-                Crawl crawl = new Crawl(linkRepository, strings, search, "thread " + index);
-                crawl.start();
-                threads.add(crawl);
-            }
-
-            for (Crawl thread : threads) {
-                thread.join();
-            }
+            CrawlProcess crawlProcess = new CrawlProcess(linkRepository);
+            crawlProcess.scrape(search);
         }
 
         Long id = project.getId();
-
         Optional<Project> byId = projectService.findById(id);
-
         return byId.orElse(null);
     }
+
+
+
 
 
 }

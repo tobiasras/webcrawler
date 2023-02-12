@@ -1,4 +1,4 @@
-package tobiasras.webcrawler.crawler.crawl;
+package tobiasras.webcrawler.crawler;
 
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
@@ -9,11 +9,12 @@ import java.io.IOException;
 import java.util.HashSet;
 
 
-public class ScrapeLink {
+public class ScrapeUrl {
+
     private Connection con;
     private Document page;
 
-    public ScrapeLink(String url) {
+    public ScrapeUrl(String url) {
         this.con = Jsoup.connect(url);
         this.page = request();
     }
@@ -21,7 +22,6 @@ public class ScrapeLink {
     private Document request() {
         try {
             Document document = con.get();
-
             if (con.response().statusCode() == 200) {
                 return document;
             } else

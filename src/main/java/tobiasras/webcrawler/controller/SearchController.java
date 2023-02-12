@@ -4,15 +4,11 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import tobiasras.webcrawler.crawler.ScrapeLink;
-import tobiasras.webcrawler.crawler.Status;
-import tobiasras.webcrawler.model.Link;
 import tobiasras.webcrawler.model.Project;
 import tobiasras.webcrawler.model.Search;
 import tobiasras.webcrawler.service.ProjectService;
 import tobiasras.webcrawler.service.SearchService;
 
-import java.io.IOException;
 import java.util.*;
 
 @AllArgsConstructor

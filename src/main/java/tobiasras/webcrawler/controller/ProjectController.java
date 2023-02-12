@@ -18,9 +18,6 @@ import java.util.Optional;
 @RequestMapping("projects")
 public class ProjectController {
     private ProjectService projectService;
-    private SearchService searchService;
-    private LinkService linkService;
-
     @GetMapping("")
     public ResponseEntity<List<Project>> all(){
         return new ResponseEntity<>(projectService.findAll(), HttpStatus.OK);
@@ -41,8 +38,6 @@ public class ProjectController {
         Project save = projectService.save(project);
         return new ResponseEntity<>(save, HttpStatus.OK);
     }
-
-
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id){

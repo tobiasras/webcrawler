@@ -7,11 +7,10 @@ import java.net.URL;
 import java.util.HashSet;
 import java.util.LinkedList;
 
-public class Crawl implements Crawler {
+public class UrlCrawl implements Crawl {
 
     @Override
     public String httpStatus(String urlToCheck) throws IOException {
-
         URL url;
         try {
             url = new URL(urlToCheck);

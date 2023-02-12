@@ -1,7 +1,6 @@
-package tobiasras.webcrawler.crawler.crawl;
+package tobiasras.webcrawler.crawler;
 
 import lombok.AllArgsConstructor;
-import tobiasras.webcrawler.crawler.Crawl;
 import tobiasras.webcrawler.model.Link;
 import tobiasras.webcrawler.model.Search;
 import tobiasras.webcrawler.repository.LinkRepository;
@@ -31,9 +30,11 @@ public class CrawlThread extends Thread {
 
             String statusForLink;
 
+            UrlCrawl crawl = new UrlCrawl();
+
             if (protocol.equals("https") || protocol.equals("http")) {
                 try {
-                    statusForLink = Crawl.fetchResponseCode(crawledLink);
+                    statusForLink = crawl.httpStatus(crawledLink);
                 } catch (IOException e) {
                     statusForLink = "404";
                 }
@@ -48,7 +49,6 @@ public class CrawlThread extends Thread {
     private String getProtocolFromUrl(String url) {
         String[] split = url.split(":");
         return split[0];
-
     }
 
 

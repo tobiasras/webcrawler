@@ -9,7 +9,6 @@ import tobiasras.webcrawler.model.Project;
 import tobiasras.webcrawler.model.Search;
 import tobiasras.webcrawler.service.LinkService;
 import tobiasras.webcrawler.service.ProjectService;
-import tobiasras.webcrawler.service.SearchService;
 
 import java.util.List;
 import java.util.Optional;
@@ -41,8 +40,6 @@ public class LinkController {
     public ResponseEntity crawlLinks(@PathVariable Long projectID) {
         Optional<Project> opProject = projectService.findById(projectID);
 
-        ResponseEntity<Project> response;
-
         if (!opProject.isPresent()) {
             return new ResponseEntity<>("project not found", HttpStatus.NOT_FOUND);
         }
@@ -55,7 +52,7 @@ public class LinkController {
         }
 
         try {
-            Project crawledProject = linkService.crawl(project);
+            Project crawledProject = linkService.crawlProject(project);
             return new ResponseEntity<>(crawledProject, HttpStatus.OK);
 
         } catch (InterruptedException e) {
