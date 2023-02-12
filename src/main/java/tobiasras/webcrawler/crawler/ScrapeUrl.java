@@ -1,4 +1,4 @@
-package tobiasras.webcrawler.crawler;
+package tobiasras.webcrawler.crawler.crawl;
 
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
@@ -10,7 +10,6 @@ import java.util.HashSet;
 
 
 public class ScrapeLink {
-    
     private Connection con;
     private Document page;
 
