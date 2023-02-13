@@ -2,8 +2,8 @@ package tobiasras.webcrawler.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import tobiasras.webcrawler.model.Search;
-import tobiasras.webcrawler.repository.SearchRepository;
+import tobiasras.webcrawler.model.Origin;
+import tobiasras.webcrawler.repository.OriginRepository;
 
 import java.util.*;
 
@@ -11,9 +11,9 @@ import java.util.*;
 @Service
 public class SearchService{
 
-    private SearchRepository searchRepository;
+    private OriginRepository searchRepository;
 
-    public Search save(Search object) {
+    public Origin save(Origin object) {
         return searchRepository.save(object);
     }
 
@@ -22,14 +22,14 @@ public class SearchService{
         searchRepository.deleteById(aLong);
     }
 
-    public Optional<Search> findById(Long aLong) {
+    public Optional<Origin> findById(Long aLong) {
         return searchRepository.findById(aLong);
     }
 
-    public List<Search> findByInitialUrl(String initURl){
+    public List<Origin> findByInitialUrl(String initURl){
         return searchRepository.findByInitialUrl(initURl);
     }
-    public List<Search> findByProjectId(Long projectID){
+    public List<Origin> findByProjectId(Long projectID){
         return searchRepository.findByProjectId(projectID);
     }
 
